@@ -3,6 +3,7 @@ import Home from "./components/Home"
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import { useState } from "react"
 import axios, {isCancel, AxiosError} from 'axios';
+import TeamPage from "./components/TeamPage";
 axios.defaults.baseURL = `http://localhost:5555`
 
 function App() {
@@ -36,7 +37,7 @@ function App() {
       <main>
         <Routes>
           <Route path="/" element={<Home teams={teams}/>} />
-          <Route path='/team/:name' element={'team'}/>
+          <Route path='/team/:name' element={<TeamPage/>}/>
         </Routes>
       </main>
     </>

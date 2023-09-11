@@ -1,24 +1,27 @@
+import os
+import requests
 from flask import Flask
 from dotenv import load_dotenv
 from flask_cors import CORS
 from teams import sports_teams
+from datetime import datetime
 
 load_dotenv()
 
 app = Flask(__name__)
 cors = CORS(app)
 
-@app.get('/games')
-def get_games():
-    import requests
-    import os
+def from_iso_format(time):
+    parsed_timestamp = datetime.fromisoformat(time).strftime("%A, %d %B %Y %I:%M %p")
+    return parsed_timestamp
 
-    URL = f'https://api.seatgeek.com/2/events?performers.slug=new-york-yankees&client_id={os.environ.get("SEAT_GEEK_CLIENT_ID")}&'
-
-
+@app.get('/games/<string:team>')
+def get_games(team):
+    URL = f'https://api.seatgeek.com/2/events?performers.slug={team}&client_id={os.environ.get("SEAT_GEEK_CLIENT_ID")}'
     r = requests.get(url = URL)
     data = r.json()
-    return sports_teams, 200
+
+    return {'seat_geek': data['events']}, 200
 
 @app.get('/sport/<string:sport>')
 def get_teams(sport):

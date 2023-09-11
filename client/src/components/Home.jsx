@@ -9,7 +9,6 @@ function Home({ teams }) {
         {teams && teams.map(team => {
           return <Link to={`/team/${team}`} key={team}><li>{team}</li></Link>
         })}
-
       </>
     )
   }
